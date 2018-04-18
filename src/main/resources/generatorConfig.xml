@@ -42,27 +42,11 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table schema="" tableName="tb_content"></table>
-		<table schema="" tableName="tb_content_category"></table>
-		<table schema="" tableName="tb_item"></table>
-		<table schema="" tableName="tb_item_cat"></table>
-		<table schema="" tableName="tb_item_desc"></table>
-		<table schema="" tableName="tb_item_param"></table>
-		<table schema="" tableName="tb_item_param_item"></table>
-		<table schema="" tableName="tb_order"></table>
-		<table schema="" tableName="tb_order_item"></table>
-		<table schema="" tableName="tb_order_shipping"></table>
 		<table schema="" tableName="tb_user"></table>
-		<table schema="" tableName="tb_member"></table>
-		<table schema="" tableName="tb_image"></table>
-		<table schema="" tableName="tb_address"></table>
+		<table schema="" tableName="tb_user_role"></table>
 		<table schema="" tableName="tb_role"></table>
 		<table schema="" tableName="tb_permission"></table>
-		<table schema="" tableName="tb_role_perm"></table>
-		<table schema="" tableName="tb_thanks"></table>
-		<table schema="" tableName="tb_shiro_filter"></table>
-		<table schema="" tableName="tb_base"></table>
-		<table schema="" tableName="tb_log"></table>
+		<table schema="" tableName="tb_role_permission"></table>
 
 	</context>
 </generatorConfiguration>

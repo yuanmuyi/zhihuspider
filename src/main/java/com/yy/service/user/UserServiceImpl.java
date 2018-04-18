@@ -1,5 +1,7 @@
 package com.yy.service.user;
 
+import com.yy.dao.entity.user.User;
+import com.yy.dao.vo.UserVo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,4 +11,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+
+    @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public UserVo findByUserName(String userName) {
+        return null;
+    }
 }

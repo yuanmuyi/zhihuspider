@@ -1,6 +1,9 @@
 package com.yy.service.user;
 
+import com.yy.dao.entity.user.Permission;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author yuanyang
@@ -9,4 +12,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PermissionServiceImpl implements PermissionService {
+    @Override
+    public Permission findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Permission> findPermissionsByUserId(Long userId) {
+        return null;
+    }
 }

@@ -6,4 +6,5 @@ package com.yy.service;
  * @date 2018/4/18 16:46
  */
 public interface BaseService {
+
 }
