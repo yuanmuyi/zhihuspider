@@ -48,7 +48,6 @@ public class ShiroRealm extends AuthorizingRealm {
         logger.info("验证当前Subject时获取到token为：" + token.toString());
         //查出是否有此用户
         UserVo hasUser = userService.findByUserName(token.getUsername());
-//        String md5Pwd = new Md5Hash("", "lucare",2).toString();
         if (hasUser != null) {
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
             List<Role> rlist = roleService.findRolesByUserId(hasUser.getId());//获取用户角色
