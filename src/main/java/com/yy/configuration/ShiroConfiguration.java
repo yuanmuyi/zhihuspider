@@ -79,7 +79,7 @@ public class ShiroConfiguration {
         filterChainDefinitionManager.put("/admin/**", "authc,roles[admin]");
         filterChainDefinitionManager.put("/user/login", "anon");//anon 可以理解为不拦截
         filterChainDefinitionManager.put("/swagger-ui.html", "anon");
-        filterChainDefinitionManager.put("/swagger-resources", "anon");
+        filterChainDefinitionManager.put("/swagger-resources/**", "anon");
         filterChainDefinitionManager.put("/v2/api-docs", "anon");
         filterChainDefinitionManager.put("/webjars/springfox-swagger-ui/**", "anon");
         filterChainDefinitionManager.put("/ajaxLogin", "anon");//anon 可以理解为不拦截
