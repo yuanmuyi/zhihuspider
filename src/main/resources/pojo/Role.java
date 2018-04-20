@@ -1,9 +1,5 @@
-package com.yy.dao.entity.user;
-/**
- * @author yuanyang
- * @Description:
- * @date 2018/4/18 16:55
- */
+package pojo;
+
 public class Role {
     private Long id;
 

@@ -8,6 +8,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import java.util.LinkedHashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @Description:shiro配置项
  * @date 2018/4/18 14:49
  */
+@Configuration
 public class ShiroConfiguration {
 
     @Bean(name = "lifecycleBeanPostProcessor")
@@ -75,13 +77,17 @@ public class ShiroConfiguration {
         filterChainDefinitionManager.put("/user/**", "authc,roles[user]");
         filterChainDefinitionManager.put("/shop/**", "authc,roles[shop]");
         filterChainDefinitionManager.put("/admin/**", "authc,roles[admin]");
-        filterChainDefinitionManager.put("/login", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionManager.put("/user/login", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionManager.put("/swagger-ui.html", "anon");
+        filterChainDefinitionManager.put("/swagger-resources", "anon");
+        filterChainDefinitionManager.put("/v2/api-docs", "anon");
+        filterChainDefinitionManager.put("/webjars/springfox-swagger-ui/**", "anon");
         filterChainDefinitionManager.put("/ajaxLogin", "anon");//anon 可以理解为不拦截
         filterChainDefinitionManager.put("/statistic/**",  "anon");//静态资源不拦截
         filterChainDefinitionManager.put("/**",  "authc,roles[user]");//其他资源全部拦截
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/user/login");
         shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 

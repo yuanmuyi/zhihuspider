@@ -1,11 +1,7 @@
-package com.yy.dao.entity.user;
+package pojo;
 
 import java.util.Date;
-/**
- * @author yuanyang
- * @Description:
- * @date 2018/4/18 16:55
- */
+
 public class User {
     private Long id;
 

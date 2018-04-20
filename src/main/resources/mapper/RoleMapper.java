@@ -1,13 +1,7 @@
-package com.yy.dao.mapper;
+package mapper;
 
-import com.yy.dao.entity.user.Role;
-import org.springframework.stereotype.Repository;
-/**
- * @author yuanyang
- * @Description:
- * @date 2018/4/18 16:55
- */
-@Repository
+import pojo.Role;
+
 public interface RoleMapper {
     int deleteByPrimaryKey(Long id);
 

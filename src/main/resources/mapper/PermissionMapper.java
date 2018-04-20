@@ -1,15 +1,8 @@
-package com.yy.dao.mapper;
+package mapper;
 
-import com.yy.dao.entity.user.Permission;
-import org.springframework.stereotype.Repository;
-/**
- * @author yuanyang
- * @Description:
- * @date 2018/4/18 16:55
- */
-@Repository
+import pojo.Permission;
+
 public interface PermissionMapper {
-
     int deleteByPrimaryKey(Long id);
 
     int insert(Permission record);

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: zhihuspider
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: yuanyang
+Implementation-Vendor-Id: com.yy
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_101
+Main-Class: ${start-class}
+
