@@ -1,6 +1,8 @@
 package com.yy.service.user;
 
 import com.yy.dao.entity.user.Permission;
+import com.yy.dao.mapper.PermissionMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
  */
 @Service
 public class PermissionServiceImpl implements PermissionService {
+
+    @Autowired
+    private PermissionMapper permissionMapper;
     @Override
     public Permission findById(Long id) {
         return null;
@@ -19,6 +24,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<Permission> findPermissionsByUserId(Long userId) {
-        return null;
+        return permissionMapper.findPermissionsByUserId(userId);
     }
 }
