@@ -2,6 +2,9 @@ package com.yy.dao.mapper;
 
 import com.yy.dao.entity.user.Role;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
 /**
  * @author yuanyang
  * @Description:
@@ -20,4 +23,6 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> findRolesByUserId(Long userId);
 }

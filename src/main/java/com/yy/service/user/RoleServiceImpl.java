@@ -1,6 +1,8 @@
 package com.yy.service.user;
 
 import com.yy.dao.entity.user.Role;
+import com.yy.dao.mapper.RoleMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl implements RoleService{
+
+    @Autowired
+    private RoleMapper roleMapper;
     @Override
     public Role findById(Long id) {
         return null;
@@ -19,6 +24,6 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public List<Role> findRolesByUserId(Long userId) {
-        return null;
+        return roleMapper.findRolesByUserId(userId);
     }
 }

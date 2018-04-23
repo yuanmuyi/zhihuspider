@@ -2,6 +2,9 @@ package com.yy.dao.mapper;
 
 import com.yy.dao.entity.user.Permission;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
 /**
  * @author yuanyang
  * @Description:
@@ -21,4 +24,6 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
+
+    List<Permission> findPermissionsByUserId(Long userId);
 }
