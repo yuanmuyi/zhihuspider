@@ -7,8 +7,8 @@
         <result column="type" property="type" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, type
-  </sql>
+        id, name, type
+    </sql>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -26,16 +26,16 @@
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from tb_role
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
+        delete from tb_role
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
 
     <insert id="insert" parameterType="com.yy.dao.entity.user.Role">
-    insert into tb_role (id, name, type
-      )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
-      )
-  </insert>
+        insert into tb_role (id, name, type
+        )
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
+        )
+    </insert>
     <insert id="insertSelective" parameterType="com.yy.dao.entity.user.Role">
         insert into tb_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -74,9 +74,9 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.yy.dao.entity.user.Role">
-    update tb_role
-    set name = #{name,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        update tb_role
+        set name = #{name,jdbcType=VARCHAR},
+        type = #{type,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>
