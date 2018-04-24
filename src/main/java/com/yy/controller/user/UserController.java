@@ -33,10 +33,9 @@ public class UserController extends BaseController{
 		UsernamePasswordToken token = new UsernamePasswordToken(username,md5Password);
 		try {
 			subject.login(token);
-			return new ResponseResult(null);
 		} catch (AuthenticationException e) {
 			return new ResponseResult(401,"用户名或密码错误");
 		}
-
+		return new ResponseResult(200,"登录成功");
 	}
 }
