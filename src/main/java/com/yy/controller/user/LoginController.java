@@ -21,6 +21,11 @@ public class LoginController {
     public String index(ModelMap map){
         log.info("============Controller=================");
         map.put("title", "HelloWorld");
-        return "index";
+        return "login";
+    }
+
+    @RequestMapping("/welcome")
+    public String welcome(){
+        return "login";
     }
 }

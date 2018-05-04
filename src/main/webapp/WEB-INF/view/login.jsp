@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <title>XMall后台管理系统</title>
-    <link rel="Shortcut Icon" href="icon/all.png" />
+    <link rel="Shortcut Icon" href="static-resource/icon/all.png" />
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,17 +14,17 @@
     <!-- Meta tag Keywords -->
 
     <!-- css files -->
-    <link rel="stylesheet" href="lib/login/style.css" type="text/css" media="all" /> <!-- Style-CSS -->
-    <link rel="stylesheet" href="lib/login/font-awesome.css"> <!-- Font-Awesome-Icons-CSS -->
-    <link rel="stylesheet" href="lib/layer/2.4/skin/layer.css"> <!-- Font-Awesome-Icons-CSS -->
+    <link rel="stylesheet" href="static-resource/lib/login/style.css" type="text/css" media="all" /> <!-- Style-CSS -->
+    <link rel="stylesheet" href="static-resource/lib/login/font-awesome.css"> <!-- Font-Awesome-Icons-CSS -->
+    <link rel="stylesheet" href="static-resource/lib/layer/2.4/skin/layer.css"> <!-- Font-Awesome-Icons-CSS -->
 
     <!-- js -->
-    <script type="text/javascript" src="lib/jquery/jquery-2.1.4.min.js"></script>
-    <script src="lib/login/jquery.vide.min.js"></script>
-    <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
-    <script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
-    <script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
-    <script type="text/javascript" src="lib/gt.js"></script>
+    <script type="text/javascript" src="static-resource/lib/jquery/jquery-2.1.4.min.js"></script>
+    <script src="static-resource/lib/login/jquery.vide.min.js"></script>
+    <script type="text/javascript" src="static-resource/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="static-resource/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+    <script type="text/javascript" src="static-resource/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+    <script type="text/javascript" src="static-resource/lib/gt.js"></script>
 
     <style>
         .title,h6{
@@ -57,7 +57,7 @@
 <body>
 
 <!-- main -->
-<div data-vide-bg="lib/video/Ipad">
+<div data-vide-bg="static-resource/lib/video/Ipad">
     <div class="center-container">
         <!--header-->
         <div class="header-w3l">
