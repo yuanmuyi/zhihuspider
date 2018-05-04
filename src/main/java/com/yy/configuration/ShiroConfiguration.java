@@ -85,7 +85,7 @@ public class ShiroConfiguration {
         filterChainDefinitionManager.put("/**",  "authc,roles[user]");//其他资源全部拦截
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/unAuth");
         shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 

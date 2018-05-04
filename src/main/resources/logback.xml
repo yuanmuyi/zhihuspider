@@ -1,13 +1,21 @@
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"><encoder><pattern>[%d][%-5level]%-60([%t][%C{15}:%L]):    %msg%n</pattern></encoder></appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d][%-5level]%-60([%t][%C{15}:%L]):    %msg%n</pattern>
+        </encoder>
+    </appender>
 
     <root level="error">
         <appender-ref ref="STDOUT"/>
     </root>
-    <logger name="com.springframework" level="info" additivity="false">
+    <logger name="com.springframework" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="com.yy" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
 </configuration>

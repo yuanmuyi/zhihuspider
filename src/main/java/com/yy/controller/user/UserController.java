@@ -38,4 +38,5 @@ public class UserController extends BaseController{
 		}
 		return new ResponseResult(200,"登录成功");
 	}
+
 }
