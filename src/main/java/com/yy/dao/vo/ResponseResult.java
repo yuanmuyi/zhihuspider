@@ -10,21 +10,28 @@ import lombok.Getter;
 @Getter
 public class ResponseResult {
 
-	private Object data;
+    private Object data;
 
-	private Integer code;
+    private Integer code;
 
-	private String msg;
+    private String msg;
 
-	private Long ts = System.currentTimeMillis();
+    private Boolean success;
 
-	public ResponseResult(Object data) {
-		this.data = data;
-	}
+    private Long ts = System.currentTimeMillis();
 
-	public ResponseResult(Integer code, String msg) {
-		this.code = code;
-		this.msg = msg;
-	}
+    public ResponseResult(Object data) {
+        this.data = data;
+        this.success = true;
+        this.code = 200;
+        this.msg = "success";
+    }
+
+    public ResponseResult(Object data, Integer code, String msg, Boolean success) {
+        this.data = data;
+        this.success = true;
+        this.msg = msg;
+        this.success = success;
+    }
 
 }

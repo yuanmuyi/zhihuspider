@@ -16,7 +16,7 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="findPermissionsByUserId" parameterType="java.lang.Long" resultType="java.util.List">
+    <select id="findPermissionsByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from tb_permission p left join tb_role_permission rp

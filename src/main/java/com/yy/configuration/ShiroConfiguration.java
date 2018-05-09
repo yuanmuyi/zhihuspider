@@ -66,19 +66,15 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
-//        Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
-//        LogoutFilter logoutFilter = new LogoutFilter();
-//        logoutFilter.setRedirectUrl("/login");
-//        filters.put("logout", logoutFilter);
-//        shiroFilterFactoryBean.setFilters(filters);
+
+        shiroFilterFactoryBean.setLoginUrl("/welcome");
+        shiroFilterFactoryBean.setSuccessUrl("/");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+
         Map<String, String> filterChainDefinitionManager = new LinkedHashMap<>();
         filterChainDefinitionManager.put("/logout", "logout");
-        filterChainDefinitionManager.put("/user/**", "authc,roles[user]");
-        filterChainDefinitionManager.put("/shop/**", "authc,roles[shop]");
-        filterChainDefinitionManager.put("/admin/**", "authc,roles[admin]");
-        filterChainDefinitionManager.put("/user/login", "anon");//anon 可以理解为不拦截
+        filterChainDefinitionManager.put("/login", "anon");//anon 可以理解为不拦截
         filterChainDefinitionManager.put("/swagger-ui.html", "anon");
-        filterChainDefinitionManager.put("/unAuth", "anon");
         filterChainDefinitionManager.put("/welcome", "anon");
         filterChainDefinitionManager.put("/swagger-resources/**", "anon");
         filterChainDefinitionManager.put("/v2/api-docs", "anon");
@@ -87,10 +83,6 @@ public class ShiroConfiguration {
         filterChainDefinitionManager.put("/static-resource/**",  "anon");//静态资源不拦截
         filterChainDefinitionManager.put("/**",  "authc,roles[user]");//其他资源全部拦截
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
-
-        shiroFilterFactoryBean.setLoginUrl("/welcome");
-        shiroFilterFactoryBean.setSuccessUrl("/");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
         return shiroFilterFactoryBean;
     }

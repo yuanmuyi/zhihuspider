@@ -38,6 +38,8 @@
         <lombok.version>1.16.16</lombok.version>
         <jstl.version>1.2</jstl.version>
         <jsp-api.version>2.0</jsp-api.version>
+        <es.version>5.5.3</es.version>
+        <es.client.version>5.5.3</es.client.version>
     </properties>
 
 	<dependencies>
@@ -60,6 +62,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!--es-->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>${es.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>transport</artifactId>
+            <version>${es.client.version}</version>
         </dependency>
 
         <!-- JSP相关 -->

@@ -2,19 +2,24 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>XMall后台管理系统</title>
-    <link rel="Shortcut Icon" href="static-resource/icon/all.png" />
+    <title>zhihuspider后台管理系统</title>
+    <link rel="Shortcut Icon" href="static-resource/icon/all.png"/>
     <!-- Meta tag Keywords -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="XMall后台管理系统 v1.0,XMall,XMall购物商城后台管理系统">
-    <meta name="description" content="XMall后台管理系统 v1.0，是一款电商后台管理系统，适合中小型CMS后台系统。">
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-    function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="zhihuspider后台管理系统 v1.0">
+    <meta name="description" content="zhihuspider后台管理系统 v1.0，是一款爬取知乎数据，后台统计展示的系统。">
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
     <!-- Meta tag Keywords -->
 
     <!-- css files -->
-    <link rel="stylesheet" href="static-resource/lib/login/style.css" type="text/css" media="all" /> <!-- Style-CSS -->
+    <link rel="stylesheet" href="static-resource/lib/login/style.css" type="text/css" media="all"/> <!-- Style-CSS -->
     <link rel="stylesheet" href="static-resource/lib/login/font-awesome.css"> <!-- Font-Awesome-Icons-CSS -->
     <link rel="stylesheet" href="static-resource/lib/layer/2.4/skin/layer.css"> <!-- Font-Awesome-Icons-CSS -->
 
@@ -27,31 +32,31 @@
     <script type="text/javascript" src="static-resource/lib/gt.js"></script>
 
     <style>
-        .title,h6{
+        .title, h6 {
             font-family: "黑体";
         }
+
         .layui-layer-title {
             padding-right: 220px;
-            font-family:"Microsoft Yahei"
+            font-family: "Microsoft Yahei"
         }
-        .layui-layer-dialog .layui-layer-content{
-            font-family:"Microsoft Yahei"
+
+        .layui-layer-dialog .layui-layer-content {
+            font-family: "Microsoft Yahei"
         }
-        .layui-layer-btn{
-            font-family:"Microsoft Yahei"
+
+        .layui-layer-btn {
+            font-family: "Microsoft Yahei"
         }
+
         span.icon1 {
             top: 23%;
         }
+
         span.icon2 {
             top: 42%;
         }
-        #wait {
-            text-align: left;
-            color: #ffffff;
-            margin: 0;
-            font-family: "黑体";
-        }
+
     </style>
 </head>
 <body>
@@ -61,7 +66,7 @@
     <div class="center-container">
         <!--header-->
         <div class="header-w3l">
-            <h1>XMall<span class="title">后台管理系统</span></h1>
+            <h1>zhihuspider<span class="title">后台管理系统</span></h1>
         </div>
         <!--//header-->
         <div class="main-content-agile">
@@ -72,7 +77,7 @@
                 <form id="login" action="" method="post" width="100%">
                     <input placeholder="用户名" name="username" id="username" class="user" type="text" required="">
                     <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br><br>
-                    <input  placeholder="密码" name="password" id="password" class="pass" type="password" required="">
+                    <input placeholder="密码" name="password" id="password" class="pass" type="password" required="">
                     <span class="icon2"><i class="fa fa-unlock" aria-hidden="true"></i></span><br><br>
 
 
@@ -89,98 +94,68 @@
 
         <!--footer-->
         <div class="footer">
-            <p>&copy; 2017 XMall. All rights reserved | Design by <a href="http://blog.exrick.cn" target="_blank">Exrick</a></p>
+            <p>&copy; 2018 jjwhnd. All rights reserved | Design by <a href="www.baidu.com"
+                                                                     target="_blank">jjwhnd</a></p>
         </div>
         <!--//footer-->
     </div>
 </div>
 <script type="text/javascript">
 
-    function (captchaObj) {
-        captchaObj.appendTo('#captcha');
-
-        $('#loginButton').click(function () {
-            $("#loginButton").val("登录中...");
-            $("#loginButton").attr("disabled","disabled");
-            var name=$("#username").val();
-            var pass=$("#password").val();
-            if(name==""||pass==""){
-                layer.msg("用户名或密码不能为空");
-                $("#loginButton").val("登录");
-                $("#loginButton").removeAttr("disabled");
-                return;
-            }
-            var reg = /^[0-9A-Za-z]+$/;
-            if(!reg.exec(name))
-            {
-                layer.msg("用户名格式有误");
-                $("#loginButton").val("登录");
-                $("#loginButton").removeAttr("disabled");
-                return;
-            }
-            var result = captchaObj.getValidate();
-            if (!result) {
-                layer.msg("请完成验证");
-                $("#loginButton").val("登录");
-                $("#loginButton").removeAttr("disabled");
-                return ;
-            }
-            $.ajax({
-                url: '/user/login?t=' + (new Date()).getTime(), // 加随机数防止缓存
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    username: name,
-                    password: pass
-                },
-                success: function (data) {
-                    if(data.success==true){
-                        window.location.href="/";
-                    }else{
-                        layer.msg(data.message);
-                        captchaObj.reset();
-                        $("#loginButton").val("登录");
-                        $("#loginButton").removeAttr("disabled");
-                    }
-                },
-                error:function(XMLHttpRequest){
-                    layer.alert('数据处理失败! 错误码:'+XMLHttpRequest.status+' 错误信息:'+JSON.parse(XMLHttpRequest.responseText).message,{title: '错误信息',icon: 2});
+    $('#loginButton').click(function () {
+        $("#loginButton").val("登录中...");
+        $("#loginButton").attr("disabled", "disabled");
+        var name = $("#username").val();
+        var pass = $("#password").val();
+        if (name == "" || pass == "") {
+            layer.msg("用户名或密码不能为空");
+            $("#loginButton").val("登录");
+            $("#loginButton").removeAttr("disabled");
+            return;
+        }
+        var reg = /^[0-9A-Za-z]+$/;
+        if (!reg.exec(name)) {
+            layer.msg("用户名格式有误");
+            $("#loginButton").val("登录");
+            $("#loginButton").removeAttr("disabled");
+            return;
+        }
+        $.ajax({
+            url: '/login?t=' + (new Date()).getTime(), // 加随机数防止缓存
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                username: name,
+                password: pass
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.success == true) {
+                    window.location.href = "/unAuth";
+                } else {
+                    layer.msg(data.message);
                     $("#loginButton").val("登录");
                     $("#loginButton").removeAttr("disabled");
                 }
-            });
-        })
-        window.gt = captchaObj;
-    };
+            },
+            error: function (XMLHttpRequest) {
+                layer.alert('数据处理失败! 错误码:' + XMLHttpRequest.status + ' 错误信息:' + JSON.parse(XMLHttpRequest.responseText).message, {
+                    title: '错误信息',
+                    icon: 2
+                });
+                $("#loginButton").val("登录");
+                $("#loginButton").removeAttr("disabled");
+            }
+        });
+    })
 
 
-    function forgetPass(){
+    function forgetPass() {
         layer.alert('体验测试账号密码：test | test', {
             icon: 4,
             title: "提示"
         });
     }
-
-    $.ajax({
-        url:"/sys/base",
-        type: 'GET',
-        success:function (data) {
-            if(data.success!=true){
-                layer.alert(data.message,{title: '错误信息',icon: 2});
-                return;
-            }
-            if(data.result.hasLogNotice==1){
-                layer.alert(data.result.logNotice, {
-                    title: "通知"
-                });
-            }
-        },
-        error:function(XMLHttpRequest){
-            if(XMLHttpRequest.status!=200){
-                layer.alert('数据处理失败! 错误码:'+XMLHttpRequest.status+' 错误信息:'+JSON.parse(XMLHttpRequest.responseText).message,{title: '错误信息',icon: 2});
-            }
-        }
-    });
 </script>
 </body>
 </html>
