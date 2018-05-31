@@ -40,6 +40,7 @@
         <jsp-api.version>2.0</jsp-api.version>
         <es.version>5.5.3</es.version>
         <es.client.version>5.5.3</es.client.version>
+        <webmagic.version>0.7.3</webmagic.version>
     </properties>
 
 	<dependencies>
@@ -164,6 +165,18 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+
+        <!-- webmagic -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>${webmagic.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>${webmagic.version}</version>
         </dependency>
 
         <!--swagger文档生成工具 -->
