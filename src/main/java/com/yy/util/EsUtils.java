@@ -2,7 +2,6 @@ package com.yy.util;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.net.UnknownHostException;
  * @Description:
  * @date 2018/5/8 15:08
  */
-//@PropertySource(value = {"classpath:application.properties"},encoding="utf-8")
 @Component
 public class EsUtils {
 
@@ -41,7 +39,7 @@ public class EsUtils {
         Settings settings = Settings.builder().put("cluster.name", clusterName).build();
         TransportAddress transportAddress;
         try {
-            transportAddress = new InetSocketTransportAddress(InetAddress.getByName(ipAddress),port);
+            transportAddress = new TransportAddress(InetAddress.getByName(ipAddress),port);
             client = new PreBuiltTransportClient(settings).addTransportAddress(transportAddress);
             logger.info("-------success connect to es, clusterName:[{}], ip:[{}], port:[{}]------",clusterName,ipAddress,port);
         } catch (UnknownHostException e) {

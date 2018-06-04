@@ -1,5 +1,6 @@
 package com.yy.dao.es;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,5 +23,12 @@ public interface EsOperatorDao {
      * @author yaunyang
      * @date 2018/5/10 11:23
      */
-    void insertData(String index,String type,Map data);
+    void insertData(String index,String type,Map<String,Object> data);
+
+    /**
+     * 批量插入
+     * @author yaunyang
+     * @date 2018/6/1 11:31
+     */
+    void bulkInsertData(String index, String type, List<Map<String,Object>> datas, boolean refresh);
 }

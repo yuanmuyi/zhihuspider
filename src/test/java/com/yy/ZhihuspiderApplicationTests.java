@@ -1,7 +1,9 @@
 package com.yy;
 
-import org.junit.Test;
+import com.yy.util.JsonUtils;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -9,8 +11,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ZhihuspiderApplicationTests {
 
-	@Test
-	public void contextLoads() {
+	private final Logger log = LoggerFactory.getLogger(getClass());
+
+	protected static void toPrettyPrinting(Object object) {
+
+		System.out.println("=====================================================================");
+		System.out.println("data: " + JsonUtils.obj2Json(object));
+		System.out.println("=====================================================================");
 	}
 
 }
