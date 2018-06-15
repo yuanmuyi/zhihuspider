@@ -1,4 +1,4 @@
-package com.yy.spider.processor;
+package com.yy.spider.zhihu;
 
 import com.yy.common.Constant;
 import org.slf4j.Logger;
@@ -26,17 +26,13 @@ public class ZhihuPageProcessor implements PageProcessor {
     private static Site site = Site.me().setRetryTimes(3).setUserAgent(
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36")
             .setCharset("UTF-8").addHeader("Host", "www.zhihu.com").setTimeOut(10000)
-            .addHeader("Referer", "https://www.zhihu.com/")
-            .addCookie("_xsrf", "41770e04-fcb4-4460-8739-6ad17a8198dd")
-            .addCookie("_zap", "bf620a96-84a9-49e3-b620-c7a545ca6e3f")
-            .addCookie("z_c0", "2|1:0|10:1528117259|4:z_c0|92:Mi4xZHUtT0F3QUFBQUFBMEdHOEMtdWxEU1lBQUFCZ0FsVk5DNFlDWEFBbUZXanptdk1qX3lxeHZ6U1NLR2lpczZ0cHZR|f47e51cc8761c95e75213ee0279a055ca32df890f36567d4b64ef73ae5bd6d23")
-            .addCookie("__utmc", "155987696");
+            .addHeader("Referer", "https://www.zhihu.com/");
 
     private void setJsonInfo(Page page) {
         Map<String,Object> result = new HashMap<>(16);
 
         String id = page.getUrl().regex("people/(.*?)/", 1).get();
-        String temp = page.getHtml().css("div#data").regex("datString id = page.getUrl().regex(\"people/(.*?)/\", 1).get();a-state=\"(.*?)\"", 1).get();
+        String temp = page.getHtml().css("div#data").regex("data-state=\"(.*?)\"", 1).get();
         if (temp == null) {
             logger.info("The home page of " + id + " is not available.");
             return;// 无法获取该用户主页
@@ -63,9 +59,9 @@ public class ZhihuPageProcessor implements PageProcessor {
             result.put("business",userJson.jsonPath("$.business.name").get());
         }
         result.put("location",userJson.jsonPath("$.locations[*].name").get());
-        result.put("answer",userJson.jsonPath("$.answerCount").get());
-        result.put("agree",userJson.jsonPath("$.voteupCount").get());
-        result.put("follower",userJson.jsonPath("$.followerCount").get());
+        result.put("answer",Integer.parseInt(userJson.jsonPath("$.answerCount").get()));
+        result.put("agree",Integer.parseInt(userJson.jsonPath("$.voteupCount").get()));
+        result.put("follower",Integer.parseInt(userJson.jsonPath("$.followerCount").get()));
 
         page.putField(Constant.RESULT_LIST_MAP, result);
     }
@@ -81,7 +77,6 @@ public class ZhihuPageProcessor implements PageProcessor {
         if (page.getHtml().css("div.Unhuman").match()) {
             // 账号/ip被封,终止程序
             System.out.println("banned!!!");
-            logger.error("Account has been banned!");
             System.exit(1);
         }
 

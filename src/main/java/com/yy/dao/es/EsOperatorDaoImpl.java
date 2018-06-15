@@ -45,7 +45,6 @@ public class EsOperatorDaoImpl implements EsOperatorDao {
             if (Objects.isNull(client)){
                 return;
             }
-
             //索引创建
             IndicesAdminClient indicesAdminClient = client.admin().indices();
             CreateIndexResponse indexResponse = indicesAdminClient.prepareCreate(indexAndTypeEnum.getIndex()).
@@ -59,9 +58,20 @@ public class EsOperatorDaoImpl implements EsOperatorDao {
                 builder = XContentFactory.jsonBuilder()
                         .startObject()
                         .startObject(indexAndTypeEnum.getType())
-                        .startObject("_all")
-                        .field("analyzer","index_ansj")
-                        .field("enabled",true)
+                        .startObject("properties")
+                        .startObject("follower").field("type","integer").endObject()
+                        .startObject("business").field("type","keyword").field("copy_to","my_all").endObject()
+                        .startObject("answer").field("type","integer").endObject()
+                        .startObject("school").field("type","keyword").endObject()
+                        .startObject("sex").field("type","keyword").endObject()
+                        .startObject("name").field("type","keyword").field("copy_to","my_all").endObject()
+                        .startObject("company").field("type","keyword").field("copy_to","my_all").endObject()
+                        .startObject("location").field("type","keyword").field("copy_to","my_all").endObject()
+                        .startObject("id").field("type","keyword").endObject()
+                        .startObject("agree").field("type","integer").endObject()
+                        .startObject("job").field("type","keyword").endObject()
+                        .startObject("introduction").field("type","text").field("copy_to","my_all").endObject()
+                        .startObject("my_all").field("type","text").field("analyzer","ik_max_word").endObject()
                         .endObject()
                         .endObject()
                         .endObject();

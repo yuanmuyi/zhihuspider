@@ -1,10 +1,12 @@
 package com.yy.service.spider;
 
-import com.yy.spider.pipeline.EsPipeline;
-import com.yy.spider.processor.ZhihuPageProcessor;
+import com.yy.dao.es.EsOperatorDao;
+import com.yy.spider.zhihu.EsPipeline;
+import com.yy.spider.zhihu.ZhihuDownloader;
+import com.yy.spider.zhihu.ZhihuPageProcessor;
+import com.yy.spider.zhihu.ZhihuSpider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 
 /**
@@ -17,19 +19,19 @@ public class SpiderServiceImpl implements SpiderService {
 
     @Autowired
     private EsPipeline esPipeline;
+
+    @Autowired
+    private EsOperatorDao esOperatorDao;
+
     @Override
     public void spiderStart(String url) {
-        Spider.create(new ZhihuPageProcessor())
-                .addUrl(url)
-                // 设置Scheduler，使用File来管理URL队列, 可以去重爬取
-                .setScheduler(new FileCacheQueueScheduler("/spider/logs/queue"))
-                .addPipeline(esPipeline)
-                .thread(3)
-                .run();
+        ZhihuSpider spider = new ZhihuSpider(new ZhihuPageProcessor());
+        spider.addUrl(url)
+                .setDownloader(new ZhihuDownloader(spider))
+              .setScheduler(new FileCacheQueueScheduler("/spider/logs/queue"))
+              .addPipeline(esPipeline)
+              .thread(12);
+        spider.run();
     }
 
-    public static void main(String[] args) {
-        SpiderServiceImpl spiderService = new SpiderServiceImpl();
-        spiderService.spiderStart("https://www.zhihu.com/people/lu-jia-1-62/activities");
-    }
 }

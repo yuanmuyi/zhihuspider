@@ -1,4 +1,4 @@
-package com.yy.spider.processor;
+package com.yy.spider.zhihu;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Site;

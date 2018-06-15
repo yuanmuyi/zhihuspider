@@ -1,9 +1,8 @@
-package com.yy.spider.pipeline;
+package com.yy.spider.zhihu;
 
 import com.yy.common.Constant;
 import com.yy.common.enums.EsIndexAndTypeEnum;
 import com.yy.dao.es.EsOperatorDao;
-import com.yy.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.ResultItems;
@@ -26,7 +25,12 @@ public class EsPipeline implements Pipeline {
     @Override
     public void process(ResultItems resultItems, Task task) {
         Map<String,Object> result = resultItems.get(Constant.RESULT_LIST_MAP);
-        System.out.println(JsonUtils.obj2Json(result));
-        esOperatorDao.insertData(EsIndexAndTypeEnum.ZHIHU.getIndex(),EsIndexAndTypeEnum.ZHIHU.getType(),result);
+        try {
+            if (result != null && !result.isEmpty()){
+                esOperatorDao.insertData(EsIndexAndTypeEnum.ZHIHU.getIndex(),EsIndexAndTypeEnum.ZHIHU.getType(),result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

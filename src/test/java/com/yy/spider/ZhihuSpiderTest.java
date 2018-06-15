@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ZhihuSpiderTest extends ZhihuspiderApplicationTests {
 
-    private final static String startUrl = "https://www.zhihu.com/people/excited-vczh/activities";
+    private final static String startUrl = "https://www.zhihu.com/people/shi-zi-jun-22/activities";
 
     @Autowired
     private SpiderService spiderService;
