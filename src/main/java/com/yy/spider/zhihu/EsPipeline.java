@@ -1,9 +1,7 @@
 package com.yy.spider.zhihu;
 
 import com.yy.common.Constant;
-import com.yy.common.enums.EsIndexAndTypeEnum;
-import com.yy.dao.es.EsOperatorDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.yy.common.QueueManager;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
@@ -19,15 +17,12 @@ import java.util.Map;
 @Component
 public class EsPipeline implements Pipeline {
 
-    @Autowired
-    private EsOperatorDao esOperatorDao;
-
     @Override
     public void process(ResultItems resultItems, Task task) {
         Map<String,Object> result = resultItems.get(Constant.RESULT_LIST_MAP);
         try {
             if (result != null && !result.isEmpty()){
-                esOperatorDao.insertData(EsIndexAndTypeEnum.ZHIHU.getIndex(),EsIndexAndTypeEnum.ZHIHU.getType(),result);
+                QueueManager.getZhihuQueue().put(result);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -44,7 +44,7 @@ public class ZhihuSpider extends Spider {
             t = System.currentTimeMillis();
             int position = flag / num;
             if (position == cookies.size() - 1) {
-                flag = -1;
+                flag = -num;
             }
             //爬取num个页面后切换账号
             site.addCookie("z_c0", cookies.get(position));
