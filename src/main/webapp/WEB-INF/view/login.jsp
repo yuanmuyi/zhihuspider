@@ -131,7 +131,7 @@
             success: function (data) {
                 console.log(data);
                 if (data.success == true) {
-                    window.location.href = "/unAuth";
+                    window.location.href = "/index";
                 } else {
                     layer.msg(data.message);
                     $("#loginButton").val("登录");

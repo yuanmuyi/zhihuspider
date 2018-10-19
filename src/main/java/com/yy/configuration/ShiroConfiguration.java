@@ -1,11 +1,17 @@
 package com.yy.configuration;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,27 +28,65 @@ import java.util.Map;
 @Configuration
 public class ShiroConfiguration {
 
+    @Value("${spring.redis.host}")
+    private String host;
+    @Value("${spring.redis.port}")
+    private int port;
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+
+
     @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
-    //处理认证匹配处理器：如果自定义需要实现继承HashedCredentialsMatcher
-    //指定加密方式方式，也可以在这里加入缓存，当用户超过五次登陆错误就锁定该用户禁止不断尝试登陆
-//    @Bean(name = "hashedCredentialsMatcher")
-//    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-//        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
-//        credentialsMatcher.setHashAlgorithmName("MD5");
-//        credentialsMatcher.setHashIterations(2);
-//        credentialsMatcher.setStoredCredentialsHexEncoded(true);
-//        return credentialsMatcher;
-//    }
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager  securityManager){
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+
+        shiroFilterFactoryBean.setLoginUrl("/unauth");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+
+        Map<String, String> filterChainDefinitionManager = new LinkedHashMap<>();
+        //anon 可以理解为不拦截
+
+        filterChainDefinitionManager.put("/login", "anon");
+        filterChainDefinitionManager.put("/test/getUser", "anon");
+        filterChainDefinitionManager.put("/test/setUser", "anon");
+        filterChainDefinitionManager.put("/swagger-ui.html", "anon");
+        filterChainDefinitionManager.put("/swagger-resources/**", "anon");
+        filterChainDefinitionManager.put("/v2/api-docs", "anon");
+        filterChainDefinitionManager.put("/webjars/springfox-swagger-ui/**", "anon");
+        filterChainDefinitionManager.put("/ajaxLogin", "anon");
+        filterChainDefinitionManager.put("/static-resource/**",  "anon");
+        //其他资源全部拦截
+        filterChainDefinitionManager.put("/**",  "authc");
+        //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
+
+        return shiroFilterFactoryBean;
+    }
+
+    /**
+     * 处理认证匹配处理器：如果自定义需要实现继承HashedCredentialsMatcher
+     * 指定加密方式方式，也可以在这里加入缓存，当用户超过五次登陆错误就锁定该用户禁止不断尝试登陆
+     */
+    @Bean(name = "hashedCredentialsMatcher")
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+        credentialsMatcher.setHashAlgorithmName("MD5");
+        credentialsMatcher.setHashIterations(1);
+        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+        return credentialsMatcher;
+    }
 
     @Bean(name = "shiroRealm")
     @DependsOn("lifecycleBeanPostProcessor")
     public ShiroRealm shiroRealm() {
         ShiroRealm realm = new ShiroRealm();
-//        realm.setCredentialsMatcher(hashedCredentialsMatcher());
+        realm.setCredentialsMatcher(hashedCredentialsMatcher());
         return realm;
     }
 
@@ -57,34 +101,61 @@ public class ShiroConfiguration {
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(shiroRealm());
-        securityManager.setCacheManager(ehCacheManager());//用户授权/认证信息Cache, 采用EhCache 缓存
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(sessionManager());
+        // 自定义缓存实现 使用redis
+        securityManager.setCacheManager(cacheManager());
         return securityManager;
     }
 
-    @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager  securityManager){
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+    @Bean
+    public SessionManager sessionManager() {
+        MySessionManager mySessionManager = new MySessionManager();
+        mySessionManager.setSessionDAO(redisSessionDAO());
+        return mySessionManager;
+    }
 
-        shiroFilterFactoryBean.setLoginUrl("/welcome");
-        shiroFilterFactoryBean.setSuccessUrl("/");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+    /**
+     * 配置shiro redisManager
+     * <p>
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    @Bean
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setTimeout(timeout);
+        return redisManager;
+    }
 
-        Map<String, String> filterChainDefinitionManager = new LinkedHashMap<>();
-        filterChainDefinitionManager.put("/logout", "logout");
-        filterChainDefinitionManager.put("/login", "anon");//anon 可以理解为不拦截
-        filterChainDefinitionManager.put("/swagger-ui.html", "anon");
-        filterChainDefinitionManager.put("/welcome", "anon");
-        filterChainDefinitionManager.put("/swagger-resources/**", "anon");
-        filterChainDefinitionManager.put("/v2/api-docs", "anon");
-        filterChainDefinitionManager.put("/webjars/springfox-swagger-ui/**", "anon");
-        filterChainDefinitionManager.put("/ajaxLogin", "anon");//anon 可以理解为不拦截
-        filterChainDefinitionManager.put("/static-resource/**",  "anon");//静态资源不拦截
-        filterChainDefinitionManager.put("/**",  "authc,roles[user]");//其他资源全部拦截
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
+    /**
+     * cacheManager 缓存 redis实现
+     * <p>
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    @Bean
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
+    }
 
-        return shiroFilterFactoryBean;
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * <p>
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
     }
 
     @Bean
@@ -95,6 +166,10 @@ public class ShiroConfiguration {
         return daap;
     }
 
+    /**
+     * 开启shiro aop注解支持.
+     * 使用代理方式;所以需要开启代码支持;
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
@@ -102,9 +177,4 @@ public class ShiroConfiguration {
         return aasa;
     }
 
-    //thymeleaf模板引擎和shiro整合时使用
-    /*@Bean(name = "shiroDialect")
-    public ShiroDialect shiroDialect(){
-        return new ShiroDialect();
-    }*/
 }

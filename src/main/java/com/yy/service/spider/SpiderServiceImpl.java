@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +45,11 @@ public class SpiderServiceImpl implements SpiderService {
                 .setDownloader(new ZhihuDownloader(spider))
               .setScheduler(new FileCacheQueueScheduler("/spider/logs/queue"))
               .addPipeline(esPipeline)
-              .thread(12);
+              .thread(10);
         spider.run();
     }
 
 
-    @PostConstruct
     public void inserZhiDataToEs(){
         List<Map<String,Object>> listMap = new ArrayList<>();
         dataThread.submit(new Runnable() {

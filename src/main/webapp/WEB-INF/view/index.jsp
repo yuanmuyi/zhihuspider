@@ -14,11 +14,9 @@
 <script type="text/javascript" src="/lib/jquery/2.1.4/jquery.min.js"></script>
 
 <script>
-    $(function(){
-        $('#title').click(function(){
-            alert($(this).text());
-        });
-    })
+    document.getElementById("title").onclick=function () {
+        window.location.href = "/test";
+    };
 </script>
 </body>
 </html>
