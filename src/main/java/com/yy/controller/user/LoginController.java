@@ -8,7 +8,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,10 +33,10 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseResult login(@RequestParam("username") String username, @RequestParam("password") String password){
         Subject subject = SecurityUtils.getSubject();
-        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
-        UsernamePasswordToken token = new UsernamePasswordToken(username,md5Password);
+//        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
         subject.login(token);
-        return new ResponseResult(200,"登录成功");
+        return new ResponseResult(subject.getSession().getId(),200,"登录成功");
     }
 
 
