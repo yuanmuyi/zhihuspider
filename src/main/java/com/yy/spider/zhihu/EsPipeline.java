@@ -19,9 +19,9 @@ public class EsPipeline implements Pipeline {
 
     @Override
     public void process(ResultItems resultItems, Task task) {
-        Map<String,Object> result = resultItems.get(Constant.RESULT_LIST_MAP);
+        Map<String, Object> result = resultItems.get(Constant.RESULT_LIST_MAP);
         try {
-            if (result != null && !result.isEmpty()){
+            if (result != null && !result.isEmpty()) {
                 QueueManager.getZhihuQueue().put(result);
             }
         } catch (Exception e) {

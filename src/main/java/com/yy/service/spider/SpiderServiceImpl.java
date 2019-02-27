@@ -41,11 +41,10 @@ public class SpiderServiceImpl implements SpiderService {
     @Override
     public void spiderStart(String url) {
         ZhihuSpider spider = new ZhihuSpider(new ZhihuPageProcessor());
-        spider.addUrl(url)
-                .setDownloader(new ZhihuDownloader(spider))
+        spider.addUrl(url).setDownloader(new ZhihuDownloader(spider))
               .setScheduler(new FileCacheQueueScheduler("/spider/logs/queue"))
               .addPipeline(esPipeline)
-              .thread(10);
+              .thread(1);
         spider.run();
     }
 

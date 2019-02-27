@@ -53,7 +53,6 @@ public class ShiroConfiguration {
         //anon 可以理解为不拦截
 
         filterChainDefinitionManager.put("/login", "anon");
-        filterChainDefinitionManager.put("/test/getUser", "anon");
         filterChainDefinitionManager.put("/test/setUser", "anon");
         filterChainDefinitionManager.put("/swagger-ui.html", "anon");
         filterChainDefinitionManager.put("/swagger-resources/**", "anon");
